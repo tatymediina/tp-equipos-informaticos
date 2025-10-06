@@ -129,9 +129,8 @@ export class EquipmentController {
     }
   }
 
-  /**
-   * Libera un equipo (lo deja sin asignar)
-   */
+  // ! Libera un equipo (lo deja sin asignar)
+   
   public async unassignEquipment(req: IAuthRequest, res: Response): Promise<void> {
     try {
       const { id } = req.params;
@@ -150,9 +149,8 @@ export class EquipmentController {
     }
   }
 
-  /**
-   * Obtiene equipos asignados al usuario actual
-   */
+  // ! Obtiene equipos asignados al usuario actual
+   
   public async getMyEquipment(req: IAuthRequest, res: Response): Promise<void> {
     try {
       const userId = req.user!._id!;

@@ -7,7 +7,7 @@ import { handleValidationErrors } from '../middlewares/validate.middlewares';
 const router = Router();
 const equipmentController = new EquipmentController();
 
-// Validaciones comunes
+// ! Validaciones comunes
 const idValidation = [
   param('id')
     .isMongoId()
@@ -35,15 +35,15 @@ const createEquipmentValidation = [
     .withMessage('Estado inválido'),
 ];
 
-// Todas las rutas requieren autenticación
+// ! Todas las rutas requieren autenticación
 router.use(authenticateToken);
 
-// Rutas para usuarios normales y administradores
+//! Rutas para usuarios normales y administradores
 router.get('/', equipmentController.getAllEquipment);
 router.get('/my-equipment', equipmentController.getMyEquipment);
 router.get('/:id', idValidation, handleValidationErrors, equipmentController.getEquipmentById);
 
-// Rutas solo para administradores
+// ! Rutas solo para administradores
 router.post('/', requireAdmin, createEquipmentValidation, handleValidationErrors, equipmentController.createEquipment);
 router.put('/:id', requireAdmin, idValidation, handleValidationErrors, equipmentController.updateEquipment);
 router.delete('/:id', requireAdmin, idValidation, handleValidationErrors, equipmentController.deleteEquipment);

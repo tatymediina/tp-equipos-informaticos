@@ -1,16 +1,13 @@
 import jwt from 'jsonwebtoken';
 import { IUserResponse } from '../types/IUser';
 
-/**
- * Clase utilitaria para el manejo de JWT
- */
+// ! Clase utilitaria para el manejo de JWT
 export class JWTHelper {
   private static readonly SECRET = process.env.JWT_SECRET || 'fallback_secret';
   private static readonly EXPIRES_IN =  '24h';
 
-  /**
-   * Interfaz para el payload del token JWT
-   */
+  // ! Interfaz para el payload del token JWT
+   
   private static jwtPayload(user: IUserResponse): {
     id: string;
     email: string;
@@ -25,18 +22,16 @@ export class JWTHelper {
     };
   }
 
-  /**
-   * Interfaz para las opciones del token JWT
-   */
+  // ! Interfaz para las opciones del token JWT
+   
   private static jwtOptions(): jwt.SignOptions {
     return {
       expiresIn: this.EXPIRES_IN
     };
   }
 
-  /**
-   * Genera un token JWT para un usuario
-   */
+  // ! Genera un token JWT para un usuario
+   
   public static generateToken(user: IUserResponse): string {
     const payload = this.jwtPayload(user);
     const options = this.jwtOptions();
@@ -44,9 +39,8 @@ export class JWTHelper {
     return jwt.sign(payload, this.SECRET, options);
   }
 
-  /**
-   * Verifica y decodifica un token JWT
-   */
+  // ! Verifica y decodifica un token JWT
+   
   public static verifyToken(token: string): any {
     try {
       return jwt.verify(token, this.SECRET);
@@ -55,16 +49,14 @@ export class JWTHelper {
     }
   }
 
-  /**
-   * Decodifica un token sin verificar (útil para obtener información básica)
-   */
+  // ! Decodifica un token sin verificar (útil para obtener información básica)
+   
   public static decodeToken(token: string): any {
     return jwt.decode(token);
   }
 
-  /**
-   * Extrae el token del header de autorización
-   */
+  // !  Extrae el token del header de autorización
+   
   public static extractToken(authHeader: string | undefined): string | null {
     if (!authHeader) {
       return null;

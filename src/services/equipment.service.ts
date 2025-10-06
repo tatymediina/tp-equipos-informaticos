@@ -1,13 +1,10 @@
 import EquipmentModel, { IEquipmentDocument } from '../models/equipment.model';
 import { IEquipment, IEquipmentCreate, IEquipmentUpdate, EquipmentStatus } from '../types/IEquipment';
 
-/**
- * Servicio para manejar la lógica de negocio de equipos
- */
+// !  Servicio para manejar la lógica de negocio de equipos
 export class EquipmentService {
-  /**
-   * Convierte un documento de equipo a IEquipment
-   */
+  // ! Convierte un documento de equipo a IEquipment
+   
   private toEquipmentObject(equipment: IEquipmentDocument): IEquipment {
     return {
       _id: equipment._id.toString(), // Convertir ObjectId a string
@@ -24,9 +21,8 @@ export class EquipmentService {
     };
   }
 
-  /**
-   * Obtiene todos los equipos con paginación
-   */
+  // ! Obtiene todos los equipos con paginación
+   
   public async getAllEquipment(
     page: number = 1,
     limit: number = 10,
@@ -34,7 +30,7 @@ export class EquipmentService {
   ): Promise<{ equipment: IEquipment[]; total: number; page: number; totalPages: number }> {
     const skip = (page - 1) * limit;
 
-    // Construir query de filtros
+    // ! Construir query de filtros
     const query: any = {};
     if (filters.type) query.type = filters.type;
     if (filters.status) query.status = filters.status;
@@ -49,7 +45,7 @@ export class EquipmentService {
       EquipmentModel.countDocuments(query)
     ]);
 
-    // Convertir documentos de Mongoose a objetos simples
+    // ! Convertir documentos de Mongoose a objetos simples
     const equipmentArray = equipment.map(eq => this.toEquipmentObject(eq));
 
     return {
@@ -60,9 +56,8 @@ export class EquipmentService {
     };
   }
 
-  /**
-   * Obtiene un equipo por ID
-   */
+  // ! Obtiene un equipo por ID
+  
   public async getEquipmentById(id: string): Promise<IEquipment> {
     const equipment = await EquipmentModel.findById(id).populate('assignedTo', 'name email');
     if (!equipment) {
@@ -71,9 +66,8 @@ export class EquipmentService {
     return this.toEquipmentObject(equipment);
   }
 
-  /**
-   * Crea un nuevo equipo
-   */
+  // ! Crea un nuevo equipo
+   
   public async createEquipment(equipmentData: IEquipmentCreate): Promise<IEquipment> {
     // Verificar si el número de serie ya existe
     const existingEquipment = await EquipmentModel.findOne({ 
@@ -87,9 +81,8 @@ export class EquipmentService {
     return this.toEquipmentObject(equipment);
   }
 
-  /**
-   * Actualiza un equipo existente
-   */
+  // ! Actualiza un equipo existente
+   
   public async updateEquipment(id: string, updateData: IEquipmentUpdate): Promise<IEquipment> {
     const equipment = await EquipmentModel.findByIdAndUpdate(
       id,
@@ -104,9 +97,8 @@ export class EquipmentService {
     return this.toEquipmentObject(equipment);
   }
 
-  /**
-   * Elimina un equipo
-   */
+  // ! Elimina un equipo
+   
   public async deleteEquipment(id: string): Promise<void> {
     const equipment = await EquipmentModel.findByIdAndDelete(id);
     if (!equipment) {
@@ -114,9 +106,8 @@ export class EquipmentService {
     }
   }
 
-  /**
-   * Asigna un equipo a un usuario
-   */
+  // ! Asigna un equipo a un usuario
+   
   public async assignEquipment(equipmentId: string, userId: string): Promise<IEquipment> {
     const equipment = await EquipmentModel.findByIdAndUpdate(
       equipmentId,
@@ -135,9 +126,8 @@ export class EquipmentService {
     return this.toEquipmentObject(equipment);
   }
 
-  /**
-   * Libera un equipo (lo deja sin asignar)
-   */
+  // ! Libera un equipo (lo deja sin asignar)
+   
   public async unassignEquipment(equipmentId: string): Promise<IEquipment> {
     const equipment = await EquipmentModel.findByIdAndUpdate(
       equipmentId,
@@ -156,9 +146,8 @@ export class EquipmentService {
     return this.toEquipmentObject(equipment);
   }
 
-  /**
-   * Obtiene equipos asignados a un usuario específico
-   */
+  // ! Obtiene equipos asignados a un usuario específico
+   
   public async getEquipmentByUser(userId: string): Promise<IEquipment[]> {
     const equipment = await EquipmentModel.find({ assignedTo: userId })
       .populate('assignedTo', 'name email')

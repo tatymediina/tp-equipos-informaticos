@@ -4,9 +4,7 @@ import UserModel from '../models/user.model';
 import { IAuthRequest } from '../types/IAuthRequest';
 import { IUser } from '../types/IUser';
 
-/**
- * Middleware para verificar el token JWT
- */
+// ! Middleware para verificar el token JWT
 export const authenticateToken = async (
   req: IAuthRequest,
   res: Response,
@@ -47,9 +45,8 @@ export const authenticateToken = async (
   }
 };
 
-/**
- * Middleware para verificar roles de administrador
- */
+// ! Middleware para verificar roles de administrador
+ 
 export const requireAdmin = (
   req: IAuthRequest,
   res: Response,
@@ -65,9 +62,8 @@ export const requireAdmin = (
   next();
 };
 
-/**
- * Middleware para verificar si el usuario es admin o el propietario del recurso
- */
+// ! Middleware para verificar si el usuario es admin o el propietario del recurso
+ 
 export const requireAdminOrOwner = (
   req: IAuthRequest,
   res: Response,

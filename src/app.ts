@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 // Logging simple
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
   console.log(`${new Date().toLocaleTimeString()} - ${req.method} ${req.path}`);
   next();
 });
@@ -26,7 +26,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/equipment', equipmentRoutes);
 
 // Health check
-app.get('/api/health', (req, res) => {
+app.get('/api/health', (_req, res) => {
   res.json({
     success: true,
     message: 'API funcionando',
@@ -36,9 +36,9 @@ app.get('/api/health', (req, res) => {
 });
 
 // Ruta de inicio
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.json({
-    message: 'Bienvenido a Formotex Inventory API',
+    message: 'Bienvenido a Polo Inventory API',
     endpoints: [
       'POST /api/auth/register',
       'POST /api/auth/login', 
@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
 });
 
 // Manejo de rutas no encontradas
-app.use('/not-found', (req, res) => {
+app.use('/not-found', (_req, res) => {
   res.status(404).json({ 
     success: false, 
     message: 'Ruta no encontrada' 
@@ -63,19 +63,19 @@ async function startServer() {
     database.conectar();
     
     app.listen(PORT, () => {
-      console.log(`🚀 Servidor ejecutándose en http://localhost:${PORT}`);
-      console.log(`📊 Estado DB: ${database.estaConectado() ? '✅ Conectado' : '❌ No conectado'}`);
+      console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+      console.log(`Estado DB: ${database.estaConectado() ? 'Conectado' : 'No conectado'}`);
     });
     
   } catch (error) {
-    console.error('❌ Error al iniciar:', error);
+    console.error('Error al iniciar:', error);
     process.exit(1);
   }
 }
 
 // Manejo de cierre
 process.on('SIGINT', async () => {
-  console.log('\n🛑 Deteniendo servidor...');
+  console.log('\nDeteniendo servidor...');
   await database.desconectar();
   process.exit(0);
 });

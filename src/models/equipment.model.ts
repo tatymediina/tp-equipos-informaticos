@@ -46,7 +46,6 @@ const EquipmentSchema: Schema = new Schema({
   timestamps: true
 });
 
-// Solo índices adicionales
 EquipmentSchema.index({ status: 1 });
 EquipmentSchema.index({ type: 1 });
 

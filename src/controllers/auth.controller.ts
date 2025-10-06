@@ -1,7 +1,8 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { AuthService } from '../services/auth.service';
 import { IUserCreate, IUserLogin } from '../types/IUser';
 import { IAuthRequest } from '../types/IAuthRequest';
+import userModel from '../models/user.model';
 
 const authService = new AuthService();
 
@@ -61,6 +62,36 @@ export class AuthController {
       res.status(404).json({
         success: false,
         message: error.message
+      });
+    }
+  }
+
+  // ! Middleware para permitir crear el primer usuario sin autenticación
+  public static async allowFirstUser(
+    req: IAuthRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      // *  Verifica si ya existe algún usuario en la base de datos
+      const userCount = await userModel.countDocuments();
+      
+      if (userCount === 0) {
+        // * Si no hay usuarios, permitir crear el primer usuario como admin
+        console.log('Primer usuario del sistema - asignando rol admin automáticamente');
+        req.body.role = 'admin'; // Forzar rol admin para el primer usuario
+        
+       
+        return next();
+      }
+      
+      
+      next();
+    } catch (error) {
+      console.error('Error en middleware allowFirstUser:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error interno del servidor'
       });
     }
   }

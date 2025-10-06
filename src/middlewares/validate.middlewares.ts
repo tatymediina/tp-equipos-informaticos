@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
 
-/**
- * Middleware para manejar errores de validación
- */
+// ! Middleware para manejar errores de validación
+ 
 export const handleValidationErrors = (
   req: Request,
   res: Response,
