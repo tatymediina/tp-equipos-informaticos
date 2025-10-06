@@ -12,9 +12,9 @@ export const authenticateToken = async (
 ): Promise<void> => {
   try {
     const authHeader = req.headers.authorization;
-    console.log(req)
+    console.log(authHeader)
     const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
-    
+    console.log(token)
     
     if (!token) {
       res.status(401).json({
@@ -52,6 +52,7 @@ export const requireAdmin = (
   res: Response,
   next: NextFunction
 ): void => {
+  console.log(req.user)
   if (req.user?.role !== 'admin') {
     res.status(403).json({
       success: false,

@@ -36,7 +36,7 @@ const UserSchema: Schema = new Schema({
   timestamps: true
 });
 
-// Solo índices adicionales (no email que ya es unique)
+
 UserSchema.index({ role: 1 });
 
 export default mongoose.model<IUserDocument>('User', UserSchema);

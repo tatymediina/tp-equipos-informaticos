@@ -1,5 +1,5 @@
 import EquipmentModel, { IEquipmentDocument } from '../models/equipment.model';
-import { IEquipment, IEquipmentCreate, IEquipmentUpdate, EquipmentStatus } from '../types/IEquipment';
+import { IEquipment, IEquipmentCreate, IEquipmentUpdate } from '../types/IEquipment';
 
 // !  Servicio para manejar la lógica de negocio de equipos
 export class EquipmentService {
@@ -104,46 +104,6 @@ export class EquipmentService {
     if (!equipment) {
       throw new Error('Equipo no encontrado');
     }
-  }
-
-  // ! Asigna un equipo a un usuario
-   
-  public async assignEquipment(equipmentId: string, userId: string): Promise<IEquipment> {
-    const equipment = await EquipmentModel.findByIdAndUpdate(
-      equipmentId,
-      { 
-        assignedTo: userId, 
-        status: EquipmentStatus.IN_USE,
-        updatedAt: new Date()
-      },
-      { new: true, runValidators: true }
-    ).populate('assignedTo', 'name email');
-
-    if (!equipment) {
-      throw new Error('Equipo no encontrado');
-    }
-
-    return this.toEquipmentObject(equipment);
-  }
-
-  // ! Libera un equipo (lo deja sin asignar)
-   
-  public async unassignEquipment(equipmentId: string): Promise<IEquipment> {
-    const equipment = await EquipmentModel.findByIdAndUpdate(
-      equipmentId,
-      { 
-        assignedTo: null, 
-        status: EquipmentStatus.AVAILABLE,
-        updatedAt: new Date()
-      },
-      { new: true, runValidators: true }
-    ).populate('assignedTo', 'name email');
-
-    if (!equipment) {
-      throw new Error('Equipo no encontrado');
-    }
-
-    return this.toEquipmentObject(equipment);
   }
 
   // ! Obtiene equipos asignados a un usuario específico

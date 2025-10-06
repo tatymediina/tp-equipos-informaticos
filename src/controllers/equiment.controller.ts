@@ -109,46 +109,6 @@ export class EquipmentController {
     }
   }
 
-  // ! Asigna un equipo a un usuario
-  public async assignEquipment(req: IAuthRequest, res: Response): Promise<void> {
-    try {
-      const { id } = req.params;
-      const { userId } = req.body;
-      const equipment = await equipmentService.assignEquipment(id, userId);
-
-      res.json({
-        success: true,
-        message: 'Equipo asignado exitosamente',
-        data: equipment
-      });
-    } catch (error: any) {
-      res.status(400).json({
-        success: false,
-        message: error.message
-      });
-    }
-  }
-
-  // ! Libera un equipo (lo deja sin asignar)
-   
-  public async unassignEquipment(req: IAuthRequest, res: Response): Promise<void> {
-    try {
-      const { id } = req.params;
-      const equipment = await equipmentService.unassignEquipment(id);
-
-      res.json({
-        success: true,
-        message: 'Equipo liberado exitosamente',
-        data: equipment
-      });
-    } catch (error: any) {
-      res.status(400).json({
-        success: false,
-        message: error.message
-      });
-    }
-  }
-
   // ! Obtiene equipos asignados al usuario actual
    
   public async getMyEquipment(req: IAuthRequest, res: Response): Promise<void> {

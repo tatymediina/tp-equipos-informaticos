@@ -47,7 +47,4 @@ router.get('/:id', idValidation, handleValidationErrors, equipmentController.get
 router.post('/', requireAdmin, createEquipmentValidation, handleValidationErrors, equipmentController.createEquipment);
 router.put('/:id', requireAdmin, idValidation, handleValidationErrors, equipmentController.updateEquipment);
 router.delete('/:id', requireAdmin, idValidation, handleValidationErrors, equipmentController.deleteEquipment);
-router.post('/:id/assign', requireAdmin, idValidation, handleValidationErrors, equipmentController.assignEquipment);
-router.post('/:id/unassign', requireAdmin, idValidation, handleValidationErrors, equipmentController.unassignEquipment);
-
 export default router;

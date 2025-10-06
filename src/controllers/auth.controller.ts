@@ -12,7 +12,9 @@ export class AuthController {
   public async register(req: Request, res: Response): Promise<void> {
     try {
       const userData: IUserCreate = req.body;
+  
       const result = await authService.register(userData);
+
 
       res.status(201).json({
         success: true,

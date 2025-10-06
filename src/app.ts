@@ -5,13 +5,13 @@ import { database } from './config/db';
 import authRoutes from './routes/auth.routes';
 import equipmentRoutes from './routes/equipment.routes';
 
-// Cargar variables de entorno
+
+// * Cargar variables de entorno
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middlewares básicos
 app.use(cors());
 app.use(express.json());
 
@@ -56,10 +56,10 @@ app.use('/not-found', (_req, res) => {
   });
 });
 
-// Iniciar servidor
+
 async function startServer() {
   try {
-    // Conectar a DB (no bloqueante)
+    
     database.conectar();
     
     app.listen(PORT, () => {
@@ -73,7 +73,7 @@ async function startServer() {
   }
 }
 
-// Manejo de cierre
+
 process.on('SIGINT', async () => {
   console.log('\nDeteniendo servidor...');
   await database.desconectar();
