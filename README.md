@@ -109,3 +109,48 @@ Validaciones declarativas y reutilizable
 
 patron singleton:
 Asegurar una sola instancia.
+
+#### Docker
+
+**Requisitos:**
+* Docker instalado
+
+1. Copiar el archivo de ejemplo
+```bash
+cp .env.example .env
+```
+
+2. Editar el archivo .env con tus configuraciones
+```bash
+PORT=
+MONGO_URI=
+JWT_SECRET=
+```
+
+3. Levantar los servicios
+```bash
+docker-compose up -d
+```
+
+4. Verificar que todo este funcionando
+```
+docker-compose ps
+```
+
+5. Comandos útiles
+```bash
+# Ver logs en tiempo real
+docker-compose logs -f api
+
+# Detener servicios
+docker-compose down
+
+# Reiniciar servicios
+docker-compose restart
+
+# Reconstruir imágenes
+docker-compose build --no-cache
+
+# Ver uso de recursos
+docker-compose stats
+```
